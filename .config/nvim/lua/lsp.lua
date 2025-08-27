@@ -4,7 +4,7 @@ require("mason").setup()
 -- Quais LSPs queremos
 local servers = {
   "lua_ls",
-  "tsserver",   -- JavaScript/TypeScript
+  "ts_ls",      -- JavaScript/TypeScript
   "pyright",    -- Python
   "bashls",     -- Bash
   "jsonls",     -- JSON
@@ -18,7 +18,7 @@ require("mason-lspconfig").setup({
 
 -- nvim-cmp (autocomplete)
 local cmp = require("cmp")
-local luasnip = require("LuaSnip")
+local luasnip = require("luasnip")
 require("luasnip.loaders.from_vscode").lazy_load()
 
 cmp.setup({

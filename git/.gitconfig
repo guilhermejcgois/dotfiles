@@ -3,7 +3,7 @@
     email = guilhermejcgois@outlook.com
 
 [core]
-    editor = code -w
+    editor = nvim
 
 [init]
     defaultBranch = main
