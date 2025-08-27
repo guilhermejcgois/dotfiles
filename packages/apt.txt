@@ -2,6 +2,7 @@ zsh
 git
 curl
 fzf
+neovim
 ripgrep
 fd-find
 zoxide
