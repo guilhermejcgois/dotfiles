@@ -1,0 +1,26 @@
+[user]
+    name = Guilherme Gois
+    email = guilhermejcgois@outlook.com
+
+[core]
+    editor = code -w
+
+[init]
+    defaultBranch = main
+
+[merge]
+    conflictstyle = zdiff3
+
+[pull]
+    rebase = false
+
+[interactive]
+    diffFilter = delta --color-only
+
+[delta]
+    navigate = true
+    line-numbers = true
+
+[includeIf "gitdir:~/work/"]
+    path = ~/.gitconfig-work    # configs específicas p/ diretórios
+

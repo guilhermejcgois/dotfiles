@@ -1,0 +1,8 @@
+zsh
+git
+curl
+fzf
+ripgrep
+fd-find
+zoxide
+

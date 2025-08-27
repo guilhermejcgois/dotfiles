@@ -1,0 +1,68 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# --- Detecta OS ---
+detect_os() {
+  if [[ "$OSTYPE" == "darwin"* ]]; then echo "macos"
+  elif grep -qi microsoft /proc/version 2>/dev/null; then echo "wsl"
+  elif command -v dnf >/dev/null 2>&1; then echo "fedora"
+  elif command -v pacman >/dev/null 2>&1; then echo "arch"
+  elif command -v apt-get >/dev/null 2>&1; then echo "debian"
+  else echo "unknown"; fi
+}
+
+OS=$(detect_os)
+echo "[bootstrap] OS detectado: $OS"
+
+# --- Pacotes básicos ---
+install_basics() {
+  case "$OS" in
+    macos)
+      if ! command -v brew >/dev/null; then
+        echo "[bootstrap] Instalando Homebrew..."
+        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+      fi
+      brew bundle --file="$HOME/packages/brew.Brewfile" || true
+      ;;
+    debian)
+      sudo apt-get update -y
+      xargs -r sudo apt-get install -y < "$HOME/packages/apt.txt"
+      ;;
+    arch)
+      sudo pacman -Sy --needed --noconfirm $(tr '\n' ' ' < "$HOME/packages/pacman.txt")
+      ;;
+    fedora)
+      sudo dnf install -y $(tr '\n' ' ' < "$HOME/packages/dnf.txt")
+      ;;
+    wsl)
+      # assume Debian-like no WSL
+      sudo apt-get update -y
+      xargs -r sudo apt-get install -y < "$HOME/packages/apt.txt"
+      ;;
+    *)
+      echo "[bootstrap] OS desconhecido; instale zsh/git/curl manualmente."
+      ;;
+  esac
+}
+
+install_basics
+
+# --- Zsh como shell padrão ---
+if command -v zsh >/dev/null 2>&1; then
+  if [[ "$SHELL" != *zsh ]]; then
+    echo "[bootstrap] Trocando shell padrão para zsh..."
+    chsh -s "$(command -v zsh)" || true
+  fi
+fi
+
+# --- Antidote + plugins (o .zshrc já cuida, mas garantimos cache inicial) ---
+if [[ ! -d "${ZDOTDIR:-$HOME}/.antidote" ]]; then
+  git clone --depth=1 https://github.com/mattmc3/antidote.git "${ZDOTDIR:-$HOME}/.antidote"
+fi
+zsh -ic 'antidote bundle < ~/.zsh_plugins.txt > ~/.zsh_plugins.zsh' || true
+
+# --- Powerlevel10k: recomenda fontes MesloLGS NF ---
+echo "[bootstrap] Dica: instale a fonte Nerd (MesloLGS NF) e selecione no terminal."
+
+echo "[bootstrap] Concluído. Abra um novo terminal (ou rode: exec zsh)."
+
