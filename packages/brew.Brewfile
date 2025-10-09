@@ -5,4 +5,4 @@ brew "neovim"
 brew "ripgrep"
 brew "fd"
 brew "zoxide"
-
+brew "volta"

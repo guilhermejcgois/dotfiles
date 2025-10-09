@@ -6,4 +6,4 @@ neovim
 ripgrep
 fd-find
 zoxide
-
+volta
