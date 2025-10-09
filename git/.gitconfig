@@ -17,9 +17,22 @@
 [interactive]
     diffFilter = delta --color-only
 
+[pager]
+    diff = delta
+    log  = delta
+    reflog = delta
+    show = delta
+
 [delta]
     navigate = true
     line-numbers = true
+    syntax-theme = none
+    plus-style  = "syntax #1a1b26"
+    minus-style = "syntax #1a1b26"
+    minus-emph-style = "syntax #f7768e"
+    plus-emph-style  = "syntax #9ece6a"
+    file-style  = "#7aa2f7"
+    hunk-header-style = "#bb9af7"
 
 [includeIf "gitdir:~/work/"]
     path = ~/.gitconfig-work    # configs específicas p/ diretórios

@@ -20,6 +20,7 @@ bindkey -v
 [[ -f "$HOME/zsh/exports.zsh"   ]] && source "$HOME/zsh/exports.zsh"
 [[ -f "$HOME/zsh/aliases.zsh"   ]] && source "$HOME/zsh/aliases.zsh"
 [[ -f "$HOME/zsh/functions.zsh" ]] && source "$HOME/zsh/functions.zsh"
+[[ -f "$HOME/zsh/highlight.zsh" ]] && source "$HOME/zsh/highlight.zsh"
 
 # ---------- Antidote (plugins) ----------
 # instala automaticamente se não existir
