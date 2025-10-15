@@ -30,9 +30,41 @@ jtmin() {
       process.exit(1);
     }
     const lines = Object.entries(j).map(([k,v]) => `    ${k}: ${t(v)};`);
-    console.log(`export interface ${name} {`);
-    console.log(lines.join("\\n"));
+    console.log(`export type ${name} = {`);
+    console.log(lines.join("\n"));
     console.log("}");
   ' "$name"
+}
+
+# jta: append seguro de interface gerada pelo jtmin ao arquivo alvo.
+# uso:
+#   echo '{...json...}' | jta NomeInterface caminho/arquivo.ts
+jta() {
+  local name="$1" file="$2"
+  if [[ -z "$name" || -z "$file" ]]; then
+    echo "uso: echo '{json}' | jta NomeInterface caminho/arquivo.ts" >&2
+    return 2
+  fi
+
+  # lê o JSON de STDIN para uma variável
+  local json
+  json="$(cat)"
+
+  # cria o arquivo se não existir
+  [[ -f "$file" ]] || touch "$file"
+
+  # se já existe interface com esse nome, aborta
+  if grep -qE "^[[:space:]]*export[[:space:]]+interface[[:space:]]+$name\\b" "$file"; then
+    echo "Interface '$name' já existe em $file — nada feito." >&2
+    return 1
+  fi
+
+  {
+    printf '\n'
+    printf '%s' "$json" | jtmin "$name"
+    printf '\n'
+  } >> "$file"
+
+  echo "✓ Adicionada interface '$name' em $file"
 }
 
