@@ -158,4 +158,68 @@ j2pg() {
     console.log(sql);
   ' "$table" "$pk"
 }
+# Caminho base dos pacotes
+DOT_PKGS="$HOME/packages"
+
+# --- APT ---
+aptadd() {
+  if [[ -z "$1" ]]; then
+    echo "Uso: aptadd <pacote>"; return 1
+  fi
+  local pkg="$1"
+  sudo apt install -y "$pkg" || return 1
+  mkdir -p "$DOT_PKGS"
+  grep -qx "$pkg" "$DOT_PKGS/apt.txt" 2>/dev/null || echo "$pkg" >> "$DOT_PKGS/apt.txt"
+  sort -u -o "$DOT_PKGS/apt.txt" "$DOT_PKGS/apt.txt"
+  echo "✅ Adicionado '$pkg' ao apt.txt"
+}
+
+aptremove() {
+  if [[ -z "$1" ]]; then
+    echo "Uso: aptremove <pacote>"; return 1
+  fi
+  local pkg="$1"
+  sudo apt remove -y "$pkg"
+  sed -i "/^$pkg$/d" "$DOT_PKGS/apt.txt"
+  echo "❌ Removido '$pkg' do apt.txt"
+}
+
+# --- Homebrew ---
+brewadd() {
+  if [[ -z "$1" ]]; then
+    echo "Uso: brewadd <pacote>"; return 1
+  fi
+  local pkg="$1"
+  brew install "$pkg" || return 1
+  mkdir -p "$DOT_PKGS"
+  if ! grep -q "brew \"$pkg\"" "$DOT_PKGS/brew.Brewfile" 2>/dev/null; then
+    echo "brew \"$pkg\"" >> "$DOT_PKGS/brew.Brewfile"
+    sort -u -o "$DOT_PKGS/brew.Brewfile" "$DOT_PKGS/brew.Brewfile"
+  fi
+  echo "✅ Adicionado '$pkg' ao brew.Brewfile"
+}
+
+brewremove() {
+  if [[ -z "$1" ]]; then
+    echo "Uso: brewremove <pacote>"; return 1
+  fi
+  local pkg="$1"
+  brew uninstall "$pkg"
+  sed -i.bak "/brew \"$pkg\"/d" "$DOT_PKGS/brew.Brewfile" && rm -f "$DOT_PKGS/brew.Brewfile.bak"
+  echo "❌ Removido '$pkg' do brew.Brewfile"
+}
+
+# Gera ou atualiza pacotes detectando os instalados atualmente
+pkgsync() {
+  mkdir -p "$DOT_PKGS"
+  echo "🔄 Sincronizando pacotes..."
+  if command -v apt >/dev/null 2>&1; then
+    dpkg-query -f '${binary:Package}\n' -W | sort -u > "$DOT_PKGS/apt.txt"
+    echo "📦 apt.txt atualizado ($(wc -l < "$DOT_PKGS/apt.txt") pacotes)"
+  fi
+  if command -v brew >/dev/null 2>&1; then
+    brew bundle dump --file="$DOT_PKGS/brew.Brewfile" --force >/dev/null
+    echo "🍺 brew.Brewfile atualizado"
+  fi
+}
 
