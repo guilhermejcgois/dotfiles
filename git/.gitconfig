@@ -1,6 +1,7 @@
 [user]
     name = Guilherme Gois
     email = guilhermejcgois@outlook.com
+    signingKey = 530ADDC7E50E38CA
 
 [core]
     editor = nvim
@@ -37,3 +38,11 @@
 [includeIf "gitdir:~/work/"]
     path = ~/.gitconfig-work    # configs específicas p/ diretórios
 
+[gpg]
+    programa = gpg
+
+[commit]
+    gpgSign = true
+
+[tag]
+    gpgSign = true
