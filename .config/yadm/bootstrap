@@ -99,6 +99,47 @@ if [[ ! -d "${ZDOTDIR:-$HOME}/.antidote" ]]; then
 fi
 zsh -ic 'antidote bundle < ~/.zsh_plugins.txt > ~/.zsh_plugins.zsh' || true
 
+# --- eza (ls moderno) ---
+install_eza() {
+  case "$OS" in
+    macos)
+      if ! command -v eza >/dev/null 2>&1; then
+        brew install eza || true
+      fi
+      ;;
+    debian|wsl)
+      if ! command -v eza >/dev/null 2>&1; then
+        # tenta pelo apt (algumas distros já têm)
+        sudo apt-get update -y
+        sudo apt-get install -y eza || {
+          # fallback: pacote .deb oficial
+          tmpdeb="$(mktemp /tmp/eza_XXXX.deb)"
+          curl -fsSL https://github.com/eza-community/eza/releases/latest/download/eza_amd64.deb -o "$tmpdeb"
+          sudo apt-get install -y "$tmpdeb"
+          rm -f "$tmpdeb"
+        }
+      fi
+      ;;
+    fedora)
+      command -v eza >/dev/null 2>&1 || sudo dnf install -y eza
+      ;;
+    arch)
+      command -v eza >/dev/null 2>&1 || sudo pacman -Sy --needed --noconfirm eza
+      ;;
+  esac
+
+  # Fallback para lsd se eza não estiver disponível
+  if ! command -v eza >/dev/null 2>&1 && ! command -v lsd >/dev/null 2>&1; then
+    case "$OS" in
+      macos) brew install lsd || true ;;
+      debian|wsl) sudo apt-get install -y lsd || true ;;
+      fedora) sudo dnf install -y lsd || true ;;
+      arch) sudo pacman -Sy --needed --noconfirm lsd || true ;;
+    esac
+  fi
+}
+install_eza 
+
 # --- Powerlevel10k: recomenda fontes MesloLGS NF ---
 echo "[bootstrap] Dica: instale a fonte Nerd (MesloLGS NF) e selecione no terminal."
 
