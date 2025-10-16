@@ -19,4 +19,7 @@ alias mv='mv -i'
 
 # Miscelânea
 alias e='${EDITOR:-code}'
+alias apt='sudo apt'
+alias apti='aptadd'
+alias brewi='brewadd'
 

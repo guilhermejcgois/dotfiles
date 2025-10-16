@@ -221,5 +221,7 @@ pkgsync() {
     brew bundle dump --file="$DOT_PKGS/brew.Brewfile" --force >/dev/null
     echo "🍺 brew.Brewfile atualizado"
   fi
+
+  yadm add "$DOT_PKGS" && yadm commit -m "chore(pkgs): sync packages" && yadm push
 }
 
