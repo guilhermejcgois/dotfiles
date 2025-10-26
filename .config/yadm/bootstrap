@@ -1,6 +1,40 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+install_node_manager() {
+  echo "[bootstrap] instalando gerenciador de Node (Volta, fallback FNM)…"
+
+  # Tenta Volta (retry para contornar 429)
+  if ! command -v volta >/dev/null 2>&1; then
+    curl -fsSL --retry 5 --retry-all-errors --retry-delay 2 https://get.volta.sh | bash || true
+  fi
+
+  export VOLTA_HOME="$HOME/.volta"
+  export PATH="$VOLTA_HOME/bin:$PATH"
+
+  # Fallback: FNM se Volta ainda não está disponível
+  if ! command -v volta >/dev/null 2>&1 && ! command -v fnm >/dev/null 2>&1; then
+    curl -fsSL https://fnm.vercel.app/install | bash || true
+    export FNM_DIR="$HOME/.fnm"
+    export PATH="$FNM_DIR:$PATH"
+    # inicializa fnm em shell não interativo
+    eval "$(fnm env --use-on-cd)" || true
+  fi
+
+  # Provisiona Node LTS
+  if command -v volta >/dev/null 2>&1; then
+    "$VOLTA_HOME/bin/volta" install node@lts
+    echo "[bootstrap] Volta pronto com Node LTS."
+  elif command -v fnm >/dev/null 2>&1; then
+    fnm install --lts
+    fnm default "$(fnm ls-remote --lts | tail -1 | awk '{print $1}')" || true
+    command -v corepack >/dev/null 2>&1 && corepack enable || true
+    echo "[bootstrap] FNM pronto com Node LTS."
+  else
+    echo "[bootstrap][warn] Não consegui instalar Volta nem FNM."
+  fi
+}
+
 # --- Detecta OS ---
 detect_os() {
   if [[ "$OSTYPE" == "darwin"* ]]; then echo "macos"
@@ -27,17 +61,21 @@ install_basics() {
     debian)
       sudo apt-get update -y
       xargs -r sudo apt-get install -y < "$HOME/packages/apt.txt"
+      install_node_manager
       ;;
     arch)
       sudo pacman -Sy --needed --noconfirm $(tr '\n' ' ' < "$HOME/packages/pacman.txt")
+      install_node_manager
       ;;
     fedora)
       sudo dnf install -y $(tr '\n' ' ' < "$HOME/packages/dnf.txt")
+      install_node_manager
       ;;
     wsl)
       # assume Debian-like no WSL
       sudo apt-get update -y
       xargs -r sudo apt-get install -y < "$HOME/packages/apt.txt"
+      install_node_manager
       ;;
     *)
       echo "[bootstrap] OS desconhecido; instale zsh/git/curl manualmente."

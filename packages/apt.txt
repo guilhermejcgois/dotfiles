@@ -6,6 +6,5 @@ neovim
 ripgrep
 fd-find
 zoxide
-volta
 gnupg2
 pinentry-curses
