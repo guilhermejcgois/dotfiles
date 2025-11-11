@@ -18,7 +18,7 @@ Este repositório é gerenciado com [yadm](https://yadm.io/), que facilita versi
 - Script `bootstrap` para instalar pacotes básicos e configurar o ambiente automaticamente
 - Listas de pacotes para `apt`, `dnf`, `pacman` e `brew`
 
-## :package: Instala�ão
+## :package: Instalação
 
 ### 1. Instale o yadm
 ```bash
