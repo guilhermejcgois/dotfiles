@@ -17,6 +17,7 @@ Este repositório é gerenciado com [yadm](https://yadm.io/), que facilita versi
 - Arquivos de configuração do Git (`.gitconfig` e `.gitignore_global`)
 - Script `bootstrap` para instalar pacotes básicos e configurar o ambiente automaticamente
 - Listas de pacotes para `apt`, `dnf`, `pacman` e `brew`
+- Configurações globais do [AWS Kiro](https://kiro.dev/) com steering files para desenvolvimento moderno
 
 ## :package: Instalação
 
@@ -88,6 +89,17 @@ yadm decrypt
 │   └── .gitignore_global
 ├── .config/
 │   └── yadm/bootstrap
+├── .kiro/
+│   ├── settings.json
+│   └── steering/
+│       ├── general.md
+│       ├── docker-compose.md
+│       ├── typescript.md
+│       ├── frontend.md
+│       ├── nx.md
+│       ├── nestjs.md
+│       ├── terraform.md
+│       └── data.md
 ├── packages/
 │   ├── apt.txt
 │   ├── dnf.txt
@@ -96,7 +108,30 @@ yadm decrypt
 └── bin/
 ```
 
-## :rocket: Em qualquer máquina nov
+## :robot: AWS Kiro
+
+As configurações do [AWS Kiro](https://kiro.dev/) ficam em `.kiro/` e são aplicadas globalmente pelo yadm no `$HOME`.
+
+### settings.json
+
+Configurações gerais do editor: formatação, TypeScript strict mode, variáveis de ambiente Docker BuildKit habilitadas.
+
+### Steering Files
+
+Arquivos Markdown que guiam o comportamento da IA do Kiro. Cada arquivo cobre um conjunto de tecnologias e é ativado automaticamente por padrão de arquivo (`fileMatch`) ou sempre (`always`):
+
+| Arquivo | Ativação | Tecnologias |
+|---|---|---|
+| `general.md` | sempre | Convenções gerais, commits, testes, segurança |
+| `docker-compose.md` | `docker-compose*.yml` | Docker, Docker Compose, Dockerfile multi-stage |
+| `typescript.md` | `**/*.{ts,tsx}` | TypeScript, Zod, async/await |
+| `frontend.md` | `angular.json`, `next.config.*`, `*.component.ts`, `*.page.tsx` | Angular (Signals), React (hooks), Next.js (App Router) |
+| `nx.md` | `**/nx.json` | NX monorepo, module boundaries, cache, CI |
+| `nestjs.md` | `*.module.ts`, `*.controller.ts`, `*.service.ts` | NestJS, DTOs, guards, Swagger, testes |
+| `terraform.md` | `**/*.{tf,tfvars,tfvars.json}` | Terraform, AWS, módulos, state remoto, segurança |
+| `data.md` | `dbt_project.yml`, `*.sql`, `schema.yml` | DBT, SQL, modelos incrementais, CTEs |
+
+## :rocket: Em qualquer máquina nova
 
 ```bash
 yadm clone https://github.com/guilhermejcgois/dotfiles.git
