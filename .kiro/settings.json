@@ -1,0 +1,36 @@
+{
+  "editor": {
+    "formatOnSave": true,
+    "defaultFormatter": "prettier",
+    "tabSize": 2,
+    "insertSpaces": true,
+    "wordWrap": "on",
+    "rulers": [100],
+    "trimTrailingWhitespace": true,
+    "insertFinalNewline": true
+  },
+  "ai": {
+    "codeGeneration": {
+      "preferFunctional": true,
+      "includeTests": true,
+      "includeDocumentation": true,
+      "language": "pt-BR"
+    },
+    "contextWindow": {
+      "includeOpenFiles": true,
+      "includeGitContext": true
+    }
+  },
+  "typescript": {
+    "strictMode": true,
+    "preferInterfaces": true,
+    "importStyle": "named"
+  },
+  "terminal": {
+    "defaultProfile": "zsh",
+    "env": {
+      "COMPOSE_DOCKER_CLI_BUILD": "1",
+      "DOCKER_BUILDKIT": "1"
+    }
+  }
+}

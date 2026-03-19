@@ -17,6 +17,7 @@ Este repositório é gerenciado com [yadm](https://yadm.io/), que facilita versi
 - Arquivos de configuração do Git (`.gitconfig` e `.gitignore_global`)
 - Script `bootstrap` para instalar pacotes básicos e configurar o ambiente automaticamente
 - Listas de pacotes para `apt`, `dnf`, `pacman` e `brew`
+- Configurações globais do [AWS Kiro](https://kiro.dev/) com steering files para desenvolvimento moderno
 
 ## :package: Instalação
 
@@ -88,6 +89,17 @@ yadm decrypt
 │   └── .gitignore_global
 ├── .config/
 │   └── yadm/bootstrap
+├── .kiro/
+│   ├── settings.json
+│   └── steering/
+│       ├── general.md
+│       ├── docker-compose.md
+│       ├── typescript.md
+│       ├── angular.md
+│       ├── react.md
+│       ├── nx.md
+│       ├── nestjs.md
+│       └── terraform.md
 ├── packages/
 │   ├── apt.txt
 │   ├── dnf.txt
@@ -96,7 +108,30 @@ yadm decrypt
 └── bin/
 ```
 
-## :rocket: Em qualquer máquina nov
+## :robot: AWS Kiro
+
+As configurações do [AWS Kiro](https://kiro.dev/) ficam em `.kiro/` e são aplicadas globalmente pelo yadm no `$HOME`.
+
+### settings.json
+
+Configurações gerais do editor: formatação, TypeScript strict mode, variáveis de ambiente Docker BuildKit habilitadas.
+
+### Steering Files
+
+Arquivos Markdown que guiam o comportamento da IA do Kiro. Cada arquivo cobre um conjunto de tecnologias e é ativado automaticamente por padrão de arquivo (`fileMatch`) ou sempre (`always`):
+
+| Arquivo | Ativação | Tecnologias |
+|---|---|---|
+| `general.md` | sempre | Convenções gerais, commits, testes, segurança |
+| `docker-compose.md` | `docker-compose*.yml` | Docker, Docker Compose, Dockerfile multi-stage |
+| `typescript.md` | `**/*.{ts,tsx}` | TypeScript, Zod, async/await |
+| `angular.md` | `angular.json`, `*.component.ts`, `app.module.ts` | Angular Signals, OnPush, Standalone Components, NgRx |
+| `react.md` | `next.config.*`, `*.component.tsx`, `*.page.tsx`, `*.tsx` | React hooks, TanStack Query, Next.js App Router, Server Components |
+| `nx.md` | `**/nx.json` | NX monorepo, module boundaries, cache, CI |
+| `nestjs.md` | `*.module.ts`, `*.controller.ts`, `*.service.ts` | NestJS, Zod validation, TypeORM, Kysely, Swagger, testes |
+| `terraform.md` | `**/*.{tf,tfvars,tfvars.json}` | Terraform, AWS, módulos, state remoto, segurança |
+
+## :rocket: Em qualquer máquina nova
 
 ```bash
 yadm clone https://github.com/guilhermejcgois/dotfiles.git
