@@ -95,7 +95,8 @@ yadm decrypt
 │       ├── general.md
 │       ├── docker-compose.md
 │       ├── typescript.md
-│       ├── frontend.md
+│       ├── angular.md
+│       ├── react.md
 │       ├── nx.md
 │       ├── nestjs.md
 │       ├── terraform.md
@@ -125,9 +126,10 @@ Arquivos Markdown que guiam o comportamento da IA do Kiro. Cada arquivo cobre um
 | `general.md` | sempre | Convenções gerais, commits, testes, segurança |
 | `docker-compose.md` | `docker-compose*.yml` | Docker, Docker Compose, Dockerfile multi-stage |
 | `typescript.md` | `**/*.{ts,tsx}` | TypeScript, Zod, async/await |
-| `frontend.md` | `angular.json`, `next.config.*`, `*.component.ts`, `*.page.tsx` | Angular (Signals), React (hooks), Next.js (App Router) |
+| `angular.md` | `angular.json`, `*.component.ts`, `app.module.ts` | Angular Signals, OnPush, Standalone Components, NgRx |
+| `react.md` | `next.config.*`, `*.component.tsx`, `*.page.tsx`, `*.tsx` | React hooks, TanStack Query, Next.js App Router, Server Components |
 | `nx.md` | `**/nx.json` | NX monorepo, module boundaries, cache, CI |
-| `nestjs.md` | `*.module.ts`, `*.controller.ts`, `*.service.ts` | NestJS, DTOs, guards, Swagger, testes |
+| `nestjs.md` | `*.module.ts`, `*.controller.ts`, `*.service.ts` | NestJS, Zod validation, TypeORM, Kysely, Swagger, testes |
 | `terraform.md` | `**/*.{tf,tfvars,tfvars.json}` | Terraform, AWS, módulos, state remoto, segurança |
 | `data.md` | `dbt_project.yml`, `*.sql`, `schema.yml` | DBT, SQL, modelos incrementais, CTEs |
 
