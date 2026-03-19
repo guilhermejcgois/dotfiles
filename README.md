@@ -99,8 +99,7 @@ yadm decrypt
 │       ├── react.md
 │       ├── nx.md
 │       ├── nestjs.md
-│       ├── terraform.md
-│       └── data.md
+│       └── terraform.md
 ├── packages/
 │   ├── apt.txt
 │   ├── dnf.txt
@@ -131,7 +130,6 @@ Arquivos Markdown que guiam o comportamento da IA do Kiro. Cada arquivo cobre um
 | `nx.md` | `**/nx.json` | NX monorepo, module boundaries, cache, CI |
 | `nestjs.md` | `*.module.ts`, `*.controller.ts`, `*.service.ts` | NestJS, Zod validation, TypeORM, Kysely, Swagger, testes |
 | `terraform.md` | `**/*.{tf,tfvars,tfvars.json}` | Terraform, AWS, módulos, state remoto, segurança |
-| `data.md` | `dbt_project.yml`, `*.sql`, `schema.yml` | DBT, SQL, modelos incrementais, CTEs |
 
 ## :rocket: Em qualquer máquina nova
 
