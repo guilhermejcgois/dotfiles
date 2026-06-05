@@ -1,0 +1,28 @@
+# Environment files with credentials
+.env
+.env.local
+.env.production
+
+# Keep the template accessible
+!.env.example
+
+# Certificate and key files
+*.pem
+*.key
+*.p12
+credentials/
+
+# Build outputs
+dist/
+build/
+.next/
+out/
+
+# Customer data directories
+customer-data/
+pii/
+
+# Audit and compliance docs
+compliance/internal/
+audit-reports/
+
