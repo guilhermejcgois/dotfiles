@@ -8,3 +8,8 @@ fd-find
 zoxide
 gnupg2
 pinentry-curses
+unzip
+build-essential
+pkg-config
+luajit
+libluajit-5.1-dev
